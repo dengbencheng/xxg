@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title>千锋-会议APP后台系统</title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+</head>
+<body style="background-color:#f2f9fd;">
+<div class="header bg-main">
+    <div class="logo margin-big-left fadein-top">
+        <h1><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt=""/>千锋-会议APP后台系统</h1>
+    </div>
+    <div class="head-l"><a class="button button-little bg-green" href="personnew.html">个人信息</a>&nbsp;&nbsp;
+        <div class="button button-little bg-red" onclick="sendEmail()">
+            <span class="icon-warning"></span> 通知运维
+        </div>&nbsp;&nbsp;
+        <div class="button button-little bg-red" style="cursor: pointer" onclick="logout()">
+            <span class="icon-power-off"></span> 退出登录
+        </div>
+    </div>
+</div>
+<div id="leftnav" class="leftnav" style="OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
+    <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+    <h2><span class="icon-user"></span>基本设置</h2>
+    <ul>
+        <li><a href="pass.html" target="right"><span class="icon-caret-right"></span>修改密码</a></li>
+        <li><a href="personnew.html" target="right"><span class="icon-caret-right"></span>个人资料</a></li>
+    </ul>
+
+
+    <h2><span class="icon-pencil-square-o"></span>角色权限管理</h2>
+    <ul>
+        <li><a href="roleList.html" target="right"><span class="icon-caret-right"></span>角色管理</a></li>
+        <li><a href="permListNew.html" target="right"><span class="icon-caret-right"></span>权限管理</a></li>
+        <li><a href="resList.html" target="right"><span class="icon-caret-right"></span>资源管理</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>用户管理</h2>
+    <ul>
+        <li><a href="userList.html" target="right"><span class="icon-caret-right"></span>查看所有用户</a></li>
+
+        <li><a href="addUser.html" target="right"><span class="icon-caret-right"></span>添加用户</a></li>
+        <li><a href="userListNew.html" target="right"><span class="icon-caret-right"></span>修改删除</a></li>
+
+
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>会议通知管理</h2>
+    <ul>
+        <li><a href="addNotice.html" target="right"><span class="icon-caret-right"></span>添加通知</a></li>
+        <li><a href="noticeList.html" target="right"><span class="icon-caret-right"></span>修改删除通知</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>会议议程管理</h2>
+    <ul>
+        <li><a href="addAgenda.html" target="right"><span class="icon-caret-right"></span>添加议程</a></li>
+        <li><a href="agendaList.html" target="right"><span class="icon-caret-right"></span>修改删除议程</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>会议新闻管理</h2>
+    <ul>
+        <li><a href="addNews.html" target="right"><span class="icon-caret-right"></span>添加新闻</a></li>
+        <li><a href="newsList.html" target="right"><span class="icon-caret-right"></span>修改删除新闻</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>会议秘书管理</h2>
+    <ul>
+        <li><a href="addWorker.html" target="right"><span class="icon-caret-right"></span>添加秘书</a></li>
+        <li><a href="workerList.html" target="right"><span class="icon-caret-right"></span>修改删除秘书</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>代表团管理</h2>
+    <ul>
+        <li><a href="addDeputation.html" target="right"><span class="icon-caret-right"></span>添加代表团</a></li>
+        <li><a href="deputationList.html" target="right"><span class="icon-caret-right"></span>修改删除代表团</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>座次管理</h2>
+    <ul>
+<!--        <li><a href="addSeat.html" target="right"><span class="icon-caret-right"></span>添加座次</a></li>-->
+        <li><a href="seatList.html" target="right"><span class="icon-caret-right"></span>修改删除座次</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>系统日志</h2>
+    <ul>
+        <li><a href="userLogList.html" target="right"><span class="icon-caret-right"></span>用户日志</a></li>
+    </ul>
+
+
+</div>
+
+<ul class="bread">
+    <li><a href="info.html" target="right" class="icon-home"> 首页</a></li>
+    <li><a href="##" id="a_leader_txt">公告信息</a></li>
+</ul>
+<div class="admin">
+    <iframe scrolling="auto" rameborder="0" src="info.html" name="right" width="100%" height="100%"></iframe>
+</div>
+<div style="text-align:center;">
+</div>
+</body>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    // 退出登录
+    function logout() {
+        var _confirm = confirm("确认退出本系统吗?");
+        if (!_confirm) {
+            return;
+        }
+        var res = gRequestHandle.getRemoteData("USER","/logout");
+        res.done(function(result) {
+            if(result.code === 0) {
+                $.removeCookie("userInfo");
+                location.href="login.html";
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    // 通知运维
+    function sendEmail() {
+        var _confirm = confirm("即将发送邮箱给运维,是否继续?");
+        if(!_confirm) {
+            return;
+        }
+        var resp = gRequestHandle.getRemoteData("USER", "/email");
+        resp.done(function (result) {
+            alert(result.msg)
+        });
+    }
+
+    // 菜单点击事件
+    $(function () {
+        $(".leftnav h2").click(function () {
+            $(this).next().slideToggle(200);
+            $(this).toggleClass("on");
+        })
+        $(".leftnav ul li a").click(function () {
+            $("#a_leader_txt").text($(this).text());
+            $(".leftnav ul li a").removeClass("on");
+            $(this).addClass("on");
+        })
+
+        $(".icon-home").click(function () {
+            $("#a_leader_txt").text("所有公告");
+            $(".leftnav ul li a").removeClass("on");
+            $(this).addClass("on");
+        })
+    });
+
+
+
+</script>
+</html>

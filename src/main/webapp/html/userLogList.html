@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder">用户日志列表</strong></div>
+        <table id="userLogList" class="table table-hover text-center">
+            <!--            <tr>-->
+            <!--                <th width="10%">日志编号</th>-->
+            <!--                <th width="10%">用户编号</th>-->
+            <!--                <th width="10%">用户名称</th>-->
+            <!--                <th width="10%">日志详情</th>-->
+            <!--                <th>相关数据</th>-->
+            <!--            </tr>-->
+        </table>
+        <tr>
+            <td colspan="8">
+                <div id="pagelist" class="pagelist">
+                    <a href="javascript:void(0)" id="firstPage" onclick="firstP()">首页</a>
+                    <a href="javascript:void(0)" id="previousPage" onclick="previousP()">上一页</a>
+                    <a href="javascript:void(0)" id="nextPage" onclick="nextP()">下一页</a>
+                    <a href="javascript:void(0)" id="lastPage" onclick="lastP()">尾页</a>
+                </div>
+            </td>
+        </tr>
+    </div>
+</form>
+
+</body>
+</html>

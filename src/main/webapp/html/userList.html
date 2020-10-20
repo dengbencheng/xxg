@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style type="text/css">
+
+        #pageBox {
+            float: right;
+            padding-right: 30px;
+            padding-top: 20px;
+        }
+        #pageBox div{
+            float: left;
+            text-align: center;
+            vertical-align: center;
+        }
+        #pageBox div:nth-of-type(1) {
+            padding-top: 8px;
+        }
+        #pageBox #pageInfo{
+            margin-left: 10px;
+        }
+        #pageBox #pageInfo button {
+            margin-left: 3px;
+            padding: 5px 8px;
+            color: #0f0f0f;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            min-width: 20px;
+            border-radius: 5px;
+        }
+        #pageBox #pageInfo button:hover{
+            background-color: #feeded;
+        }
+        #pageBox #pageInfo .disabled{
+            background-color: #ffffff;
+            border: none;
+        }
+        #pageBox #pageInfo .disabled:hover{
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder">用户列表</strong></div>
+        <table id="userList" class="table table-hover text-center">
+            <tr>
+                <th>用户ID</th>
+                <th>登录账户</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>电话</th>
+                <th>职位</th>
+                <th>代表团</th>
+            </tr>
+        </table>
+        <div id="pageBox">
+            <div>
+                第 <span id="current"></span>
+                / <span id="pages"></span> 页,每页
+                <select id="sizeSelect">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+                条
+            </div>
+            <div id="pageInfo">
+
+            </div>
+        </div>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript" src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    var gApiKey = "USER";
+    var gCurrent = 1; // 当前页
+    var gSize = 1; // 每页显示个数
+    var gPages = 10; // 总页数
+
+    $(document).ready(function () {
+        loadUserInfo(1);
+    });
+
+    $("#sizeSelect").change(function () {
+        var size = $("#sizeSelect option:selected").attr("value");
+        gSize = size;
+        loadUserInfo(1);
+    })
+
+
+
+    function loadUserInfo(toPage) {
+        if (toPage <= 0 || toPage > gPages) {
+            return ;
+        }
+        gCurrent = toPage;
+        var sendData = {
+            current: gCurrent,
+            size: gSize
+        }
+       var res = gRequestHandle.getRemoteData(gApiKey,"/list", sendData);
+       res.done(function (result) {
+           if (result.code === 0) {
+               gPages = result.data.pages;
+               createPageInfo(); // 创建页码按钮组
+               createHtml(result.data.data);
+           } else {
+               alert(result.msg);
+           }
+       })
+    }
+
+    function createHtml(data) {
+        $("#userList").empty();
+        var contents = "";
+        contents = "<tr>\n" +
+            "                <th>用户ID</th>\n" +
+            "                <th>登录账户</th>\n" +
+            "                <th>姓名</th>\n" +
+            "                <th>性别</th>\n" +
+            "                <th>电话</th>\n" +
+            "                <th>职位</th>\n" +
+            "                <th>代表团</th>\n" +
+            "                <th>操作</th>\n" +
+            "            </tr>"; // 头部
+        for(let i = 0 ; i < data.length; i ++) {
+            let item = data[i];
+            var gender = "男";
+            if (item.gender == "1") {
+                gender = "女";
+            } else if (item.gender == "2") {
+                gender = "其它";
+            }
+            contents += "<tr>\n" +
+                "                <td>"+item.uid+"</td>\n" +
+                "                <td>"+item.userName+"</td>\n" +
+                "                <td>"+item.userRealName+"</td>\n" +
+                "                <td>"+gender+"</td>\n" +
+                "                <td>"+item.telPhone+"</td>\n" +
+                "                <td>"+item.staffName+"</td>\n" +
+                "                <td>"+item.delegationName+"</td>\n" +
+                "                <td><a class='button border-red' href='javascript:void(0)' name='" +item.uid+ "' onclick='removeUser(this.name)' style='padding: 2px 8px;'>"
+                + "<span class='icon-trash-o'>删除</span></a>" ;
+            contents += "<a class='button border-main' href='javascript:void(0)' name='" +item.uid+ "' onclick='updateUser(this.name)' style='padding: 2px 8px;'>";
+            contents += "<span class='icon-edit'>修改</span></a> </tr>";
+        }
+        $("#userList").append(contents);
+    }
+
+    function removeUser(uId) {
+        var _confirm = confirm("确认删除该用户信息?");
+        if (!_confirm) {
+            return ;
+        }
+        var sendData = {
+            uId : uId
+        }
+        var res = gRequestHandle.getRemoteData(gApiKey, "/del", sendData);
+        res.done(function (result) {
+            if (result.code === 0) {
+                alert("删除成功");
+                location.reload();
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    function updateUser(uId) {
+        sessionStorage.setItem("updateUser", "true");
+        sessionStorage.setItem("uId", uId);
+        location.href = "/html/addUser.html";
+    }
+
+    function createPageInfo() {
+        $("#pageInfo").empty();
+        $("#pages").text(gPages);
+        $("#current").text(gCurrent);
+        var contents = "";
+        if (gCurrent === 1) {
+            contents += "<button type='button' class='disabled'>首页</button>";
+            contents += "<button type='button' class='disabled'>上一页</button>";
+        } else {
+            contents += "<button type='button' onclick='loadUserInfo(1)'>首页</button>";
+            contents += "<button type='button' onclick='loadUserInfo("+(gCurrent - 1)+")'>上一页</button>";
+        }
+        if(gCurrent - 4 >= 1) {
+            contents += "<button type='button' onclick='loadUserInfo("+(gCurrent - 4)+")'>...</button>";
+        }
+        contents += getLeftButton(gCurrent - 3);
+        contents += getLeftButton(gCurrent - 2);
+        contents += getLeftButton(gCurrent - 1);
+        contents += "<button type='button' class='disabled'>"+gCurrent+"</button>";
+        contents += getRightButton(gCurrent + 1);
+        contents += getRightButton(gCurrent + 2);
+        contents += getRightButton(gCurrent + 3);
+        if(gCurrent + 4 <= gPages) {
+            contents += "<button  type='button'  onclick='loadUserInfo("+(gCurrent + 4)+")'>...</button>";
+        }
+
+        if (gCurrent < gPages) {
+            contents += "<button type='button' onclick='loadUserInfo("+(gCurrent + 1)+")'>下一页</button>";
+            contents += "<button type='button' onclick='loadUserInfo("+gPages+")'>尾页</button>";
+        } else {
+            contents += "<button type='button' class='disabled'>下一页</button>";
+            contents += "<button type='button' class='disabled'>尾页</button>";
+        }
+        $("#pageInfo").append(contents);
+
+        function getLeftButton(index) {
+            var pageButton = "";
+            if (index >= 1) {
+                pageButton += "<button type='button' onclick='loadUserInfo("+index+")'>"+index+"</button>";
+            }
+            return pageButton;
+        }
+        function getRightButton(index) {
+            var pageButton = "";
+            if (index <= gPages) {
+                pageButton += "<button type='button' onclick='loadUserInfo("+index+")'>"+index+"</button>";
+            }
+            return pageButton;
+        }
+    }
+
+</script>
+</html>

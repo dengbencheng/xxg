@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+    <script src="js/commons1.js"></script>
+</head>
+<body style="border-top: 2px">
+<form method="post" action="" id="listform">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder">项目列表</strong></div>
+        <div class="padding border-bottom">
+            <ul class="search" style="padding-left:10px;">
+                <li><a class="button border-main icon-plus-square-o" onclick="toAddRole()" href="javascript:void(0)"> 新增项目</a></li>
+                <if condition="$iscid eq 1">
+                </if>
+
+            </ul>
+        </div>
+        <table id="roleList" class="table table-hover text-center">
+            <tr>
+                <th width="20%">角色编号</th>
+                <th>角色名称</th>
+                <th>角色描述</th>
+                <th>操作</th>
+            </tr>
+
+            <!--            <tr>-->
+            <!--                <td>88</td>-->
+            <!--                <td>测试角色1</td>-->
+            <!--                <td>测试描述1</td>-->
+            <!--                <td>-->
+            <!--                    <a href='javascript:void(0)'  class='delete'>删除</a>-->
+            <!--                    &nbsp;&nbsp;-->
+            <!--                    <a href='javascript:void(0)'  class='update'>更新</a>-->
+            <!--                </td>-->
+            <!--            </tr>-->
+
+        </table>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript" src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    var gApiKey = "ROLE";
+
+    $(function () {
+        // 获取角色信息
+        getListRole();
+    })
+
+    function toAddRole() {
+        sessionStorage.setItem("isAddRole", "true");
+        location.href = "addRole.html";
+    }
+    
+    function getListRole() {
+        var res = gRequestHandle.getRemoteData(gApiKey, "/list");
+        res.done(function (result) {
+            if(result.code === 0) {
+                createHtml(result.data);
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    // 生成角色信息列表
+    function createHtml(roleList) {
+        var contents = "";
+        roleList.forEach(item =>{
+            contents += "<tr><td>" + item.roleId + "</td><td>" + item.roleName;
+            contents += "</td><td>" + item.roleDescription + "</td>";
+            contents += "<td><a class='button border-red' href='javascript:void(0)' name='" +item.roleId+ "' onclick='removeRole(this.name)' style='padding: 2px 8px;'>";
+            contents += "<span class='icon-trash-o'>删除</span></a>";
+            contents += "<a class='button border-main' href='javascript:void(0)' name='" +item.roleId+ "' onclick='updateRole(this.name)' style='padding: 2px 8px;'>";
+            contents += "<span class='icon-edit'>修改</span></a>";
+            contents += "</td></tr>";
+        });
+        $("#roleList").append(contents);
+    }
+
+    function removeRole(roleId) {
+        var _confirm = confirm("确认删除此角色吗?");
+        if (!_confirm) {
+            return;
+        }
+        // 开始删除
+        var res = gRequestHandle.getRemoteData(gApiKey, "/del", {roleId: roleId});
+        res.done(function (result) {
+            if(result.code === 0) {
+                alert("删除成功");
+                location.reload();
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    function updateRole(roleId) {
+        sessionStorage.setItem("isAddRole", "false");
+        sessionStorage.setItem("roleId", roleId);
+        location.href = "addRole.html";
+    }
+</script>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="panel-head"><strong><span class="icon-key"></span> <span id="panelTitle">新增用户</span></strong></div>
+    <div class="body-content">
+        <form method="post" class="form-x" action="">
+
+            <div class="form-group">
+                <div class="label">
+                    <label>登陆账户</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="adminLoginName" name="adminLoginName" size="50"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>登陆密码</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="userPassword" name="userPassword" size="50"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>姓名</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="adminName" name="adminName" size="100"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>性别</label>
+                </div>
+                <div class="field">
+                    <select id="adminSex" name="adminSex">
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                        <option value="2">其他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>电话</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="adminTel" name="adminTel" size="100"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>代表团</label>
+                </div>
+                <div class="field">
+                    <select id="deputation" name="deputationName">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>职位</label>
+                </div>
+                <div class="field">
+                    <select id="duty" name="dutyName">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <input id="submit" class="button bg-main icon-check-square-o" type="button" value="提交">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+</body>
+<script src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    var gApiKey = "DELEGATION";
+    var gUpdateUser = Boolean(sessionStorage.getItem("updateUser")); // 是否是修改用户
+    var gUId = Number(sessionStorage.getItem("uId"));
+
+    if (gUpdateUser) {
+        sessionStorage.clear();
+        $("#panelTitle").text("修改用户信息");
+        // 获取用户信息
+        var res = gRequestHandle.getRemoteData("USER", "/get", {uId: gUId});
+        res.done(function (result) {
+            if (result.code === 0) {
+                initUserInfo(result.data); // 将用户信息填入输入框
+            } else {
+                alert("获取用户信息失败");
+            }
+        })
+    }
+
+    // 将用户信息填入输入框
+    function initUserInfo(userInfo) {
+        $("#adminLoginName").val(userInfo.userName || "");
+        $("#userPassword").val(userInfo.password || "");
+        $("#adminName").val(userInfo.userRealName || "");
+        $("#adminTel").val(userInfo.telPhone || "");
+        $("#adminSex").find("option[value='"+ userInfo.gender+"']").attr("selected",true);
+    }
+
+    // 添加用户
+    $("#submit").click(function () {
+        var sendData = {
+            userName : $("#adminLoginName").val(),
+            password : $("#userPassword").val(),
+            userRealName : $("#adminName").val(),
+            gender : $("#adminSex option:selected").attr("value"),
+            telPhone : $("#adminTel").val(),
+            delegationId : $("#duty option:selected").attr("value")
+        };
+        if(!gRequestHandle.checkDataEmpty(sendData)) {
+            alert("请完善表单信息");
+            return;
+        }
+        var apikey = "/add";
+        if (gUpdateUser) {
+            apikey = "/update";
+            sendData["uid"] = gUId;
+        }
+        var res = gRequestHandle.postRemoteData("USER", apikey, sendData);
+        res.done(function (result) {
+            if (result.code === 0) {
+                alert("操作成功");
+                location.href = "/html/userList.html"
+            } else {
+                alert(result.msg);
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        loadDelegations();
+    })
+
+    // 创建代表团的选项
+    function createDelegationHtml(data) {
+        $.each(data, function(index, item){
+            var contents = "<option value='"+item.delegationId+"'>" + item.delegationName + "</option>";
+            $("#deputation").append(contents);
+        });
+        if (data.length > 0) {
+            loadStaff(data[0].delegationId);
+        }
+        $("#deputation").change(function (e) {
+            var delegationId = $("#deputation option")[e.target.selectedIndex].value;
+            loadStaff(delegationId);
+        })
+    }
+
+    function loadStaff(delegationId) {
+        var sendData = {
+            delegationId: delegationId
+        };
+        var res = gRequestHandle.getRemoteData(gApiKey, "/staff/list", sendData);
+        res.done(function (result) {
+            if (result.code === 0) {
+                createStaffHtml(result.data);
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    // 创建职位的选项
+    function createStaffHtml(data) {
+        $("#duty").empty();
+        $.each(data, function (index, item) {
+            var contents = "<option value='"+item.staffId+"'>"+item.staffName+"</option>";
+            $("#duty").append(contents);
+        })
+    }
+
+    function loadDelegations() {
+        var res = gRequestHandle.getRemoteData(gApiKey, "/list");
+        res.done(function (result) {
+            if (result.code === 0) {
+                createDelegationHtml(result.data);
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+</script>
+</html>

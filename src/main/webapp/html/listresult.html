@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+</head>
+<body style="border-top: 2px solid#999999;">
+<form method="post" action="" id="listform">
+ 
+    <div class="padding border-bottom">
+    <ul class="search" style="padding-left:10px;">
+        <li> <a class="button border-main icon-plus-square-o" href="addreward.html"> 添加内容</a> </li>
+        <li>搜索：</li>
+       
+        <if condition="$iscid eq 1">
+          <li>
+            <select name="cid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
+              <option value="">请选择分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+          </li>
+        </if>
+        <li>
+          <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
+     
+           <li> <a class="button border-main icon-plus-square-o" href="addreward.html"> 导出</a> </li>
+            </ul> 
+    </div>
+ 
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">ID</th>
+        <th width="340">成果名称</th>
+        <th width="120">成果类型</th>
+        <th width="290">成果成员</th>
+        <th width="120">审核状态</th>
+        <th width="200">申请日期</th>
+<!--        <th width="310">操作</th>-->
+      </tr>
+      <volist name="list" id="vo">
+        <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           1</td>
+         
+       
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">论文</font></td>
+          <td>张三，李四，王五</td>
+          <td>未审核</td>
+          <td>2016-07-01</td>
+<!--          <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+   		 <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           2</td>
+     
+     
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">著作</font></td>
+          <td>张三，李四，王五</td>
+          <td>已通过</td>
+          <td>2016-07-01</td>
+<!--          <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+         <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           3</td>
+ 
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">论文</font></td>
+          <td>张三，李四，王五</td>
+          <td>未审核</td>
+          <td>2016-07-01</td>
+   <!--       <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+         <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           4</td>
+
+   
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">专利</font></td>
+          <td>张三，李四，王五</td>
+          <td>已通过</td>
+          <td>2016-07-01</td>
+    <!--      <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+         <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           5</td>
+
+   
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">著作权</font></td>
+          <td>张三，李四，王五</td>
+          <td>已通过</td>
+          <td>2016-07-01</td>
+<!--          <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+         <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           6</td>
+        
+          <td>基于隐马尔科夫模型的信息系统风险评估方法</td>
+          <td><font color="#00CC99">著作</font></td>
+          <td>张三，李四，王五</td>
+          <td>已通过</td>
+          <td>2016-07-01</td>
+   <!--       <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>-->
+        </tr>
+      <!--<tr>
+        <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
+          全选 </td>
+        <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a>
+        </td>
+      </tr>-->
+      <tr>
+        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+
+</body>
+</html>

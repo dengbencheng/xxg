@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+    <script src="js/commons1.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="panel-head"><strong><span class="icon-key"></span> <span id="formTitle">修改角色</span></strong></div>
+    <div class="body-content">
+        <form method="post" class="form-x" action="">
+
+            <div class="form-group">
+                <div class="label">
+                    <label>角色名称</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="roleName" name="roleName" size="50"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>角色描述</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" id="roleDes" name="roleDes" size="100"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>设置权限</label>
+                </div>
+                <div class="field" id="permList">
+
+                </div>
+                <div  class="field" id="permContainer">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <input id="submit" class="button bg-main icon-check-square-o" type="button" value="提交">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    var gIsAddRole = false;
+    var gApiKey = "ROLE";
+    var gRequestPath = "/update";
+
+    $(function () {
+        initPage();
+    })
+
+    $("#submit").click(function () {
+        var permIds = [];
+        $("input[name='perms']:checked").each(function () {
+            permIds.push(Number(this.getAttribute("value")));
+        });
+        var roleName = $("#roleName").val();
+        var roleDes = $("#roleDes").val();
+        if(roleName === "" || roleDes === "" ) {
+            alert("请完善表单信息");
+            return ;
+        }
+        var sendData = {
+            roleName : roleName,
+            roleDescription: roleDes,
+            permIds: permIds
+        }
+        if (!gIsAddRole) {
+            // 修改, 需要roleId
+            sendData["roleId"] = Number(sessionStorage.getItem("roleId"))
+        }
+        var res = gRequestHandle.postRemoteData(gApiKey, gRequestPath, sendData);
+        res.done(function (result) {
+            alert(result.msg);
+            if(result.code === 0) {
+                location.href = "/html/roleList.html"
+            }
+        })
+    })
+
+    // 初始化页面
+    function initPage() {
+        var isAddRole = sessionStorage.getItem("isAddRole");
+        if (!isAddRole) {
+            return;
+        }
+        if (isAddRole === "true") {
+            gIsAddRole = true;
+            gRequestPath = "/add";
+            $("#formTitle").text("添加角色");
+        } else {
+            $("#formTitle").text("修改角色");
+            var res = gRequestHandle.getRemoteData(gApiKey, "/get", {roleId: Number(sessionStorage.getItem("roleId"))});
+            res.done(function (result) {
+                if(result.code === 0) {
+                    roleInfo = result.data;
+                    $("#roleName").val(roleInfo.roleName);
+                    $("#roleDes").val(roleInfo.roleDescription);
+                }
+            })
+        }
+        loadPerms();
+    }
+
+    // 获取权限
+    function loadPerms() {
+        var roleId = gIsAddRole? 0 : (sessionStorage.getItem("roleId") || 0);
+        var sendData = {
+            roleId : roleId
+        };
+        var res = gRequestHandle.getRemoteData("PERM", "/list", sendData);
+        res.done(function (result) {
+            if(result.code === 0) {
+                createHtml(result.data);
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    function createHtml(data) {
+        var perms = data.perms;
+        var rolePerms = data.rolePerms;
+        var contents = "";
+        for(let i = 0; i < perms.length; i++) {
+            let item = perms[i];
+            contents += "<label> " + item.perName;
+            contents += "<input type='checkbox' value='" +item.perId+ "' name='perms'";
+            if(haveCommonPerm(rolePerms, perms[i].perId)) {
+                contents += " checked ";
+            }
+            contents += "/></label>";
+        }
+        $("#permList").append(contents);
+    }
+
+    function haveCommonPerm(rolePerms, perId) {
+        for(let i = 0; i < rolePerms.length; i++) {
+            if (rolePerms[i].perId === perId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+</script>
+</html>

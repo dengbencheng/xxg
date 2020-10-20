@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/RequestHandle.js"></script>
+    <script src="js/pintuer.js"></script>
+</head>
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">
+            </div>
+            <form method="post">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top"><h1>千锋-会议app后台管理系统</h1></div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input id="userName" type="text" class="input input-big" name="userName"
+                                       placeholder="登录账号" data-validate="required:请填写账号"/>
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input id="password" type="password" class="input input-big" name="password"
+                                       placeholder="登录密码" data-validate="required:请填写密码"/>
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field">
+                                <input id="code" type="text" class="input input-big" name="code" placeholder="填写右侧的验证码"
+                                       data-validate="required:请填写右侧的验证码"/>
+                                <img id="vimg" src="" alt="" width="100" height="32"
+                                     class="passcode"
+                                     style="height:43px;cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:30px;"><input id="btnLogin" type="button"
+                                                      class="button button-block bg-main text-big input-big" value="登录">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript">
+	var gRequestHandle = new RequestHandle();
+	var gRequesting = false;
+	$(function(){
+		changeVerifyCode();
+	})
+    $("#vimg").click(()=>{
+        changeVerifyCode();
+    });
+    $("#btnLogin").click(()=>{
+        login();
+    });
+    $(document).keydown(function(event){
+        if(event.keyCode===13){
+            login();
+        }
+    });
+
+    function login() {
+        if (gRequesting) {
+            return;
+        }
+        gRequesting = true;
+        var username = $("#userName").val();
+        var password = $("#password").val();
+        var verifyCode = $("#code").val();
+        if (isEmptyStr(username) || isEmptyStr(password) || isEmptyStr(verifyCode)) {
+            alert("请完善表单信息");
+            gRequesting = false;
+            return;
+        }
+        var sendData = {
+            username : username,
+            password : password,
+            verifyCode : verifyCode
+        };
+        var response = gRequestHandle.postRemoteData("USER","/login",sendData);
+        response.done(function(result) {
+            if (result.code === 0) {
+                $.cookie("userInfo", JSON.stringify(result.data), {expires:1, path: "/"});
+                location.href = "index.html";
+            } else {
+                alert(result.msg);
+            }
+            gRequesting = false;
+            changeVerifyCode();
+        })
+    }
+
+    // 改变验证码
+    function changeVerifyCode() {
+        $("#vimg").attr("src", GLOBAL_URL+ "/user/verify/get"+"?" +new Date().getTime());
+    }
+
+    // 判断字符串是否为空
+    function isEmptyStr(val) {
+        return !val || val.trim() === "";
+    }
+</script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th style="text-align:left; padding-left:20px;" width="90">选中</th>
+        <th>公告主题</th>
+        <th>发布时间</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr>
+      <volist name="list" id="vo">
+        <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           1</td>    
+          <td><a href="noticeDetail.html"><font color="#00CC99">地形探测地形探测</font></a></td>
+          <td>2016-07-01</td>
+          <td>已发布</td>
+          <td colspan="7" style="text-align:center;">
+          	          	<div class="button-group"> <a class="button border-main" style="padding:2px 8px;" href="editDepartment.html"><span class="icon-edit"></span> 修改</a> 
+          	<a href="javascript:void(0)" class="button border-red" style="padding:2px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;删除</a>
+          	<a class="button border-main" style="padding:2px 8px;" href="editDepartment.html">&nbsp;发布&nbsp;</a>
+          	</div>
+      </tr>
+   		<tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           2</td>
+          <td><font color="#00CC99">地形探测地形探测</font></td>
+          <td>2016-07-01</td>
+           <td>已发布</td>
+          <td colspan="7" style="text-align:center;">
+          	          	<div class="button-group"> <a class="button border-main" style="padding:2px 8px;" href="editDepartment.html"><span class="icon-edit"></span> 修改</a> 
+          	<a href="javascript:void(0)" class="button border-red" style="padding:2px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;删除</a>
+          	<a class="button border-main" style="padding:2px 8px;" href="editDepartment.html">&nbsp;发布&nbsp;</a>
+          	</div>
+      </tr>
+      <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           3</td>
+          <td><font color="#00CC99">地形探测地形探测</font></td>
+          <td>2016-07-01</td>
+          <td>已发布</td>
+          <td colspan="7" style="text-align:center;">
+          	          	<div class="button-group"> <a class="button border-main" style="padding:2px 8px;" href="editDepartment.html"><span class="icon-edit"></span> 修改</a> 
+          	<a href="javascript:void(0)" class="button border-red" style="padding:2px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;删除</a>
+          	<a class="button border-main" style="padding:2px 8px;" href="editDepartment.html">&nbsp;发布&nbsp;</a>
+          	</div>
+      </tr>
+         <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           4</td>
+          <td><font color="#00CC99">地形探测地形探测</font></td>
+          <td>2016-07-01</td>
+          <td>已发布</td>
+          <td colspan="7" style="text-align:center;">
+          	          	<div class="button-group"> <a class="button border-main" style="padding:2px 8px;" href="editDepartment.html"><span class="icon-edit"></span> 修改</a> 
+          	<a href="javascript:void(0)" class="button border-red" style="padding:2px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;删除</a>
+          	<a class="button border-main" style="padding:2px 8px;" href="editDepartment.html">&nbsp;发布&nbsp;</a>
+          	</div>
+      </tr>
+      <tr>
+          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />
+           5</td>
+          <td><font color="#00CC99">地形探测地形探测</font></td>
+          <td></td>
+          <td>未发布</td>
+          <td colspan="7" style="text-align:center;">
+          	<div class="button-group"> <a class="button border-main" style="padding:2px 8px;" href="editDepartment.html"><span class="icon-edit"></span> 修改</a> 
+          	<a href="javascript:void(0)" class="button border-red" style="padding:2px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;删除</a>
+          	<a class="button border-main" style="padding:2px 8px;" href="editDepartment.html">&nbsp;发布&nbsp;</a>
+          	</div>
+          	
+      </tr>
+        <td style="text-align:left; padding:19px 20px;"><input type="checkbox" id="checkall"/>
+          全选 </td>
+          <td style="text-align:left;"><a class="button border-main" href="addNotice.html" style="padding:5px 8px;">+&nbsp;新增</a> 
+          <a href="javascript:void(0)" class="button border-red" style="padding:5px 8px;" onclick="DelSelect()"><span class="icon-trash-o"></span>&nbsp;批量删除</a>
+          </td>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
+      </tr>
+    </table>
+  </div>
+ </div> 
+</div>
+</form>
+
+</body>
+</html>

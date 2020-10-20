@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+</head>
+<body style="border-top: 2px">
+<form method="post" action="" id="listform">
+	<div class="panel admin-panel">
+   <div class="panel-head"><strong class="icon-reorder">结题未通过</strong></div>
+   <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <if condition="$iscid eq 1">
+        </if>
+       
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="20%">项目编号</th>
+        <th>项目名称</th>
+        <th>项目申请人</th>
+       
+        <th width="10%">申请日期</th>
+        <th>项目状态</th>
+        
+      
+      </tr>
+      <volist name="list" id="vo">
+        <tr>
+          <td>A0001</td>
+          <td><a href="ProjectDetail.html"><font color="#00CC99">地形探测</font></a></td>
+          <td>张三</td>
+          <td>2016-07-01</td>
+          <td>结题未通过</td>
+     
+           </tr>
+   		 <tr>
+          <td>A0001</td>
+          <td><a href="ProjectDetail.html">地形探测</a></td>
+          <td>张三</td>
+            <td>2016-07-01</td>
+          <td>结题未通过</td>
+        
+         <tr>
+          <td>A0001</td>
+          <td><a href="ProjectDetail.html">地形探测</a></td>
+          <td>张三</td>
+          <td>2016-07-01</td>
+          <td>结题未通过</td>
+         
+         <tr>
+          <td>A0001</td>
+          <td><a href="ProjectDetail.html">地形探测</a></td>
+          <td>张三</td>
+          <td>2016-07-01</td>
+          <td>结题未通过</td>
+      
+         <tr>
+          <td>A0001</td>
+          <td><a href="ProjectDetail.html">地形探测</a></td>
+          <td>张三</td>
+          <td>2016-07-01</td>
+          <td>结题未通过</td>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
+      </tr>
+    </table>
+   </div>
+   </div>
+  </div>
+</form>
+
+</body>
+</html>

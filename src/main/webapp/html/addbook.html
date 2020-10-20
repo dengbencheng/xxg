@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8"> 
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="css/pintuer.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/jquery.js"></script>
+<script src="js/pintuer.js"></script>
+
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>新增著作</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="">  
+    	<div  style="padding-left:20px ;padding-bottom: 20px;">
+          <label>【基本信息】</label>
+        </div>
+      <div class="form-group">  	
+        <div class="label">
+          <label>著作名称：</label>
+        </div>
+        <div class="field l10" >
+          <input type="text" class="input w100" value="" name="title" data-validate="required:请输入著作名称" />
+          <div class="tips"></div>
+        </div>
+      </div>
+            <div class="form-group">  	
+        <div class="label">
+          <label>ISBN：</label>
+        </div>
+        <div class="field l10">
+          <input type="text" class="input w50" value="" name="title" data-validate="required:请输入ISBN" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <ul class="list-inline"  style="padding-left: 40px;  padding-bottom: 25px;">
+	<li>出版社:</li>
+	<li style="padding-right: 200px;"><div class="field" >
+          <input type="text" class="input" name="s_title" value="" data-validate="required:请输入出版社" />
+       </div>     
+        </li>
+	<li>著作类型：</li>
+	<li  style="padding-left:49px;">
+		<div class="field"> 
+           <select>
+			<option>1</option>
+			<option>1</option>
+			<option>1</option>
+			<option>1</option>
+		   </select>
+          </div>  
+        </li>
+</ul>
+<ul class="list-inline"  style="padding-left: 40px;  padding-bottom: 25px;">
+	<li>出版时间:</li>
+	<li style="padding-right: 200px;"><div class="field" >
+          <input type="text" class="input" name="s_title" value="" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" value=""  data-validate="required:日期不能为空" style="padding:10px!important; height:auto!important;border:1px solid #ddd!important;" />
+       </div>     
+        </li>
+	<li>申请人：</li>
+	<li  style="padding-left:36px;">
+		<div class="field"> 
+             <input type="text" class="input" name="s_title" value="" />
+          </div>  
+        </li>
+</ul>
+
+
+      <div  style="padding-left:20px ;padding-bottom: 20px;">
+          <label>【作者信息】</label>
+        </div>
+        
+<div style="padding-left: 50px;padding-right: 50px;">
+<table class="table table-bordered" >
+	<thead>
+		<tr>
+  <th>署名顺序</th>
+
+  <th>完成人</th>
+  <th>性别</th>
+  <th>学历</th>
+  <th>职称</th>
+  <th>工作单位</th>
+  <th>贡献率</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><input type="text" style="margin: 10px; width: 40px;" name="power2004" id="power2004"/></td>
+			
+			<td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+			<td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+       
+		</tr>
+		<tr>
+			<td><input type="text" style="margin: 10px; width: 40px;" name="power2004" id="power2004"/></td>
+			
+			<td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+			<td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+        
+		</tr>
+		<tr>
+			<td><input type="text" style="margin: 10px; width: 40px;" name="power2004" id="power2004"/></td>
+			
+			<td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+			<td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td> <div class="field">
+            <select name="cid" class="input">
+              <option value="">请选择</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+              <option value="">产品分类</option>
+            </select>
+            <div class="tips"></div>
+          </div></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+          <td><input type="text" style="margin: 10px;" name="power2004" id="power2004"/></td>
+        
+		</tr>
+	</tbody>
+</table>
+</div>
+
+      <div  style="padding-left:20px ;padding-bottom: 20px;">
+          <label>【附件信息】</label>
+        </div>
+       <div class="form-group">
+        <div class="label">
+          <label>电子附件：</label>
+        </div>
+        <div class="field">
+          <input type="text" id="url1" name="img" class="input tips" style="width:25%; float:left;"  value=""  data-toggle="hover" data-place="right" data-image="" />
+          <input type="button" class="button bg-blue margin-left" id="image1" value="+ 浏览上传"  style="float:left;">
+          <div class="tipss">*请上传获著作封面与国家广电总局网页检索扫描件!</div>
+        </div>
+      </div>  
+      <div  style="padding-left:20px ;padding-bottom: 20px;">
+          <label>【备注信息】</label>
+        </div>
+        <div class="field" style="padding-left: 30px;padding-right: 30px;">
+          <textarea class="input" name="note" style=" height:90px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      <div class="form-group" style="padding-top: 30px;">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+         <button class="button bg-main icon-check-square-o" type="submit"style="margin-left:250px; margin-right: 60px;"> 暂存</button>
+          <button class="button bg-main icon-check-square-o" type="submit" > 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body></html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder">权限列表</strong></div>
+        <div class="padding border-bottom">
+            <ul class="search" style="padding-left:10px;">
+                <li><a class="button border-main icon-plus-square-o" href="addPerm.html" onclick="toAddPerm()"> 新增权限</a></li>
+            </ul>
+        </div>
+        <table id="permList" class="table table-hover text-center">
+            <tr>
+                <th>权限ID</th>
+                <th>权限名称</th>
+                <th>权限描述</th>
+                <th>操作</th>
+            </tr>
+
+<!--            <tr>-->
+<!--                <td>A0001</td>-->
+<!--                <td>测试权限名称</td>-->
+<!--                <td>测试权限描述</td>-->
+<!--                <td>-->·
+<!--                    <div>-->
+<!--                        <a class="button border-main" href="editorProject.html" style="padding: 2px 8px;"><span-->
+<!--                                class="icon-edit"></span> 修改</a>-->
+<!--                        <a class="button border-red" href="javascript:void(0)" style="padding: 2px 8px;"-->
+<!--                        ><span class="icon-trash-o"></span> 删除</a>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript" src="js/RequestHandle.js"></script>
+<script type="text/javascript">
+    var gRequestHandle = new RequestHandle();
+    var gApiKey = "PERM";
+
+    $(function () {
+        // 获取权限信息
+        getListPerm();
+    })
+
+    function toAddPerm() {
+        sessionStorage.setItem("isAddPerm", "true");
+        location.href = "addPerm.html";
+    }
+
+    function getListPerm() {
+        var res = gRequestHandle.getRemoteData(gApiKey, "/list", {roleId:0});
+        res.done(function (result) {
+            if(result.code === 0) {
+                createHtml(result.data.perms);
+            } else {
+                alert(result.msg);
+            }
+        })
+    }
+
+    // 生成角色信息列表
+    function createHtml(roleList) {
+        var contents = "";
+        roleList.forEach(item =>{
+            contents += "<tr><td>" + item.perId + "</td><td>" + item.perName;
+            contents += "</td><td>" + item.perDes + "</td>";
+            contents += "<td><a class='button border-red' href='javascript:void(0)' name='" +item.perId+ "' onclick='removePerm(this.name)' style='padding: 2px 8px;'>";
+            contents += "<span class='icon-trash-o'>删除</span></a>";
+            contents += "<a class='button border-main' href='javascript:void(0)' name='" +item.perId+ "' onclick='updatePerm(this.name)' style='padding: 2px 8px;'>";
+            contents += "<span class='icon-edit'>修改</span></a>";
+            contents += "</td></tr>";
+        });
+        $("#permList").append(contents);
+    }
+
+    function removePerm(permId) {
+        var _confirm = confirm("确认删除此权限吗?");
+        if (!_confirm) {
+            return;
+        }
+        // 开始删除
+        console.log(permId)
+        var res = gRequestHandle.getRemoteData(gApiKey, "/remove", {permId: permId});
+        res.done(function (res) {
+            if (res.code === 0) {
+                location.reload();
+            } else {
+                alert(res.msg);
+            }
+        })
+    }
+
+    function updatePerm(permId) {
+        sessionStorage.setItem("isAddPerm", "false");
+        sessionStorage.setItem("permId", permId);
+        location.href = "addPerm.html";
+    }
+</script>
+</html>
