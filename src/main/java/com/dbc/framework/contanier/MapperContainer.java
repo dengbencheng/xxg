@@ -13,19 +13,21 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MapperContainer {
     private static Map<Class, BeanDefinition> mapperDefinitionMap = new ConcurrentHashMap<>(); // mapper接口容器
-    private static volatile MapperContainer mapperFactory = null;
+    private static volatile MapperContainer instance = null;
 
     private MapperContainer() {
-
+        if (instance != null) {
+            throw new RuntimeException("单例模式");
+        }
     }
 
     public static MapperContainer getInstance() {
-        if (mapperFactory == null) {
+        if (instance == null) {
             synchronized (MapperContainer.class) {
-                mapperFactory = new MapperContainer();
+                instance = new MapperContainer();
             }
         }
-        return mapperFactory;
+        return instance;
     }
 
     /**

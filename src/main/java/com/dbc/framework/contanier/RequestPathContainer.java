@@ -32,7 +32,9 @@ public class RequestPathContainer {
     }
 
     private RequestPathContainer() {
-
+        if (instance != null) {
+            throw new RuntimeException("单例模式");
+        }
     }
 
     /**

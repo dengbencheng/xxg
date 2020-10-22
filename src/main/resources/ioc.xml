@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="com.dbc.meeting_system.service.UserService" class="com.dbc.meeting_system.service.impl.UserServiceImpl" scope="singleton">
+        <property name="SYSTEM_NUM" javaType="java.lang.Float" value="啊哈哈"/>
+        <property name="userDao" javaType="com.dbc.meeting_system.dao.UserDao"
+                  ref="com.dbc.meeting_system.dao.UserDao"/>
+    </bean>
+</beans>

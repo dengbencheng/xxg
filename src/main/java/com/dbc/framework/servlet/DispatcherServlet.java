@@ -63,7 +63,7 @@ public class DispatcherServlet extends HttpServlet {
                     methodDefinition.getParentInstance(),
                     params.toArray());
             sendResponse(result, req, resp);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             sendResponse(e.getMessage(), req, resp);
         }

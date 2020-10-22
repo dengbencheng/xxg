@@ -12,6 +12,8 @@ import java.util.Properties;
 @XxgScanner("com.dbc.meeting_system")
 public class AppConfig {
     private static Properties PROPERTIES = new Properties();
+    private static final String CONTROLLER_PACKET = "dbc.controllerPacket";
+    private static final String MAPPER_PACKET = "dbc.mapperPacket";
 
     static {
         try {
@@ -21,7 +23,10 @@ public class AppConfig {
         }
     }
 
-    public static String getControllerClassName() {
-        return PROPERTIES.getProperty("dbc.controllerClassName");
+    public static String getControllerPacket() {
+        return PROPERTIES.getProperty(CONTROLLER_PACKET);
+    }
+    public static String getMapperPacket() {
+        return PROPERTIES.getProperty(MAPPER_PACKET);
     }
 }
